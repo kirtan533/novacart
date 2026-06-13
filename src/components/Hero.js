@@ -3,9 +3,9 @@
 export default function Hero() {
   return (
     <section className="w-full min-h-screen bg-black text-white px-4 sm:px-6 pt-28 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-16">
         {/* LEFT CONTENT */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left">
+        <div className="flex-1 text-center lg:text-left">
           <p className="text-sm uppercase tracking-[4px] text-gray-400 mb-4">
             Premium Shopping Experience
           </p>
@@ -31,9 +31,8 @@ export default function Hero() {
             </button>
           </div>
         </div>
-
         {/* RIGHT IMAGE */}
-        <div className="w-full lg:w-1/2 flex justify-center">
+        <div className="flex-1 flex justify-center">
           <div className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-white/10">
             <img
               src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1170&auto=format&fit=crop"

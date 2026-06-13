@@ -6,9 +6,8 @@ import { FiShoppingCart } from "react-icons/fi";
 export default function ProductCard({ product }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
-      style={{ willChange: "transform" }}
       className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group w-full"
     >
       {/* Product Image */}

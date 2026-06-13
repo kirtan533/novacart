@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 export default function CategoryCard({ title, image }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
-      style={{ willChange: "transform" }}
       className="group relative overflow-hidden rounded-3xl h-[320px] w-full"
     >
       {/* Image */}

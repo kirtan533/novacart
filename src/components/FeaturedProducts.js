@@ -5,12 +5,19 @@ import { motion } from "framer-motion";
 
 import ProductCard from "./ProductCard";
 import ProductSkeleton from "./ProductSkeleton";
-
+import ProductModal from "./ProductModal";
+import SearchFilter from "./SearchFilter";
 import { getProducts } from "@/utils/getProducts";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   async function fetchProducts() {
     const data = await getProducts();
@@ -19,9 +26,27 @@ export default function FeaturedProducts() {
     setLoading(false);
   }
 
+  function handleOpenModal(product) {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  }
+
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const categories = [...new Set(products.map((product) => product.category))];
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <section className="py-24 px-4 sm:px-6 overflow-hidden">
@@ -40,18 +65,42 @@ export default function FeaturedProducts() {
 
           <h2 className="text-4xl md:text-5xl font-bold">Trending Products</h2>
         </motion.div>
-
+        {/* search bar  */}
+        <SearchFilter
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          categories={categories}
+        />
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-          {loading
-            ? Array.from({ length: 8 }).map((_, index) => (
-                <ProductSkeleton key={index} />
-              ))
-            : products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+          {loading ? (
+            Array.from({ length: 8 }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          ) : filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onClick={() => handleOpenModal(product)}
+              />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-20">
+              <h3 className="text-3xl font-bold mb-4">No Products Found</h3>
+
+              <p className="text-gray-400">Try searching something else.</p>
+            </div>
+          )}
         </div>
       </div>
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={selectedProduct}
+      />
     </section>
   );
 }

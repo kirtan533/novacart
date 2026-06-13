@@ -1,8 +1,15 @@
 "use client";
 import { FiShoppingCart } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import CartSidebar from "./CartSidebar";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { cartItems } = useCart();
+
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
@@ -26,14 +33,15 @@ export default function Navbar() {
         </div>
 
         {/* Cart */}
-        <button className="relative">
+        <button onClick={() => setIsCartOpen(true)} className="relative">
           <FiShoppingCart size={24} />
 
           <span className="absolute -top-2 -right-2 bg-white text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">
-            0
+            {cartItems.length}
           </span>
         </button>
       </div>
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </motion.nav>
   );
 }

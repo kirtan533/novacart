@@ -6,7 +6,7 @@ import ProductDetailsSkeleton from "@/components/ProductDetailsSkeleton";
 import { FiShoppingCart, FiStar, FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-
+import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductDetailsPage() {
@@ -16,6 +16,7 @@ export default function ProductDetailsPage() {
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +28,14 @@ export default function ProductDetailsPage() {
 
       setProduct(data);
       setSelectedImage(data.thumbnail);
+      const relatedRes = await fetch(
+        `https://dummyjson.com/products/category/${data.category}`,
+      );
+      const relatedData = await relatedRes.json();
+      const filteredRelatedProducts = relatedData.products.filter(
+        (item) => item.id !== data.id,
+      );
+      setRelatedProducts(filteredRelatedProducts.slice(0, 4));
     } catch (error) {
       console.log(error);
     } finally {
@@ -51,6 +60,7 @@ export default function ProductDetailsPage() {
         <FiArrowLeft size={22} />
         Back
       </button>
+
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         {/* IMAGE GALLERY */}
         <motion.div
@@ -133,6 +143,9 @@ export default function ProductDetailsPage() {
             Add To Cart
           </button>
         </motion.div>
+      </div>
+      <div className="max-w-7xl mx-auto">
+        <RelatedProducts products={relatedProducts} />
       </div>
     </main>
   );

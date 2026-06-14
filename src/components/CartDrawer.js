@@ -1,15 +1,16 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-
 import { FiX, FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
-
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function CartDrawer({ isOpen, setIsOpen }) {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } =
     useCart();
+
+  const router = useRouter();
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -118,8 +119,15 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                 <h3 className="text-3xl font-bold">${totalPrice.toFixed(2)}</h3>
               </div>
 
-              <button className="w-full py-4 rounded-full bg-white text-black font-semibold hover:opacity-90 transition">
-                Checkout
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push("/checkout");
+                }}
+                className="w-full py-4 rounded-full bg-white text-black font-semibold hover:opacity-90 transition"
+              >
+                {" "}
+                Checkout{" "}
               </button>
             </div>
           </motion.div>

@@ -3,10 +3,27 @@
 import { useCart } from "@/context/CartContext";
 import { FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
+
   const { cartItems, totalPrice } = useCart();
   const router = useRouter();
+
+  function applyCoupon() {
+    if (coupon === "SAVE10") {
+      setDiscount(totalPrice * 0.1);
+
+      toast.success("Coupon applied successfully");
+    } else {
+      setDiscount(0);
+
+      toast.error("Invalid coupon code");
+    }
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -98,7 +115,6 @@ export default function CheckoutPage() {
         <div>
           <div className="sticky top-32 bg-white/5 border border-white/10 rounded-3xl p-8">
             <h2 className="text-2xl font-semibold mb-8">Order Summary</h2>
-
             {/* ITEMS */}
             <div className="space-y-5">
               {cartItems.map((item) => (
@@ -123,15 +139,36 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
-
+            <p className="text-sm tracking-wider text-center mt-2 text-gray-400 mb-4">
+              Use <span className="text-white font-semibold">SAVE10</span> to
+              get 10% OFF
+            </p>
+            {/* COUPON */}
+            <div className="mt-8 flex gap-3">
+              <input
+                type="text"
+                placeholder="Coupon Code"
+                value={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+                className="flex-1 bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30"
+              />
+              <button
+                onClick={applyCoupon}
+                className="px-6 rounded-2xl bg-white text-black font-semibold hover:opacity-90 transition"
+              >
+                Apply
+              </button>
+            </div>
             {/* TOTALS */}
             <div className="border-t border-white/10 mt-8 pt-8 space-y-4">
               <div className="flex justify-between text-gray-400">
                 <span>Subtotal</span>
-
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-
+              <div className="flex justify-between text-gray-400">
+                <span>Discount</span>
+                <span> -${discount.toFixed(2)} </span>
+              </div>
               <div className="flex justify-between text-gray-400">
                 <span>Shipping</span>
 
@@ -141,10 +178,9 @@ export default function CheckoutPage() {
               <div className="flex justify-between text-2xl font-bold pt-4">
                 <span>Total</span>
 
-                <span>${(totalPrice + 20).toFixed(2)}</span>
+                <span>${(totalPrice - discount + 20).toFixed(2)}</span>
               </div>
             </div>
-
             {/* BUTTON */}
             <button className="w-full mt-8 py-5 rounded-full bg-white text-black font-semibold hover:opacity-90 transition">
               Place Order

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -16,6 +17,9 @@ export default function ProductDetailsPage() {
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
+
+  const [quantity, setQuantity] = useState(1);
+
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -46,6 +50,16 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     fetchProduct();
   }, []);
+
+  function increaseQuantity() {
+    setQuantity((prev) => prev + 1);
+  }
+
+  function decreaseQuantity() {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  }
 
   if (loading) {
     return <ProductDetailsSkeleton />;
@@ -133,15 +147,41 @@ export default function ProductDetailsPage() {
               In Stock
             </span>
           </div>
+          {/* QUANTITY + BUTTON */}
+          <div className="mt-10 flex flex-col sm:flex-row gap-5 sm:items-center">
+            {/* QUANTITY CONTROLS */}
+            <div className="flex items-center border border-white/10 rounded-full overflow-hidden">
+              <button
+                onClick={decreaseQuantity}
+                className="w-14 h-14 text-2xl hover:bg-white/10 transition"
+              >
+                -
+              </button>
 
-          {/* BUTTON */}
-          <button
-            onClick={() => addToCart(product)}
-            className="mt-10 px-8 py-5 rounded-full bg-white text-black font-semibold flex items-center gap-3 hover:opacity-90 transition"
-          >
-            <FiShoppingCart size={22} />
-            Add To Cart
-          </button>
+              <div className="w-16 text-center font-semibold text-lg">
+                {quantity}
+              </div>
+
+              <button
+                onClick={increaseQuantity}
+                className="w-14 h-14 text-2xl hover:bg-white/10 transition"
+              >
+                +
+              </button>
+            </div>
+
+            {/* ADD TO CART */}
+            <button
+              onClick={() => {
+                addToCart(product, quantity);
+                toast.success(`${quantity} item added to cart`);
+              }}
+              className="px-8 py-5 rounded-full bg-white text-black font-semibold flex items-center justify-center gap-3 hover:opacity-90 transition"
+            >
+              <FiShoppingCart size={22} />
+              Add To Cart
+            </button>
+          </div>
         </motion.div>
       </div>
       <div className="max-w-7xl mx-auto">

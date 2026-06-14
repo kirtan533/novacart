@@ -2,10 +2,11 @@
 
 import { motion } from "framer-motion";
 import { FiShoppingCart } from "react-icons/fi";
-import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { FiHeart } from "react-icons/fi";
 import { useWishlist } from "@/context/WishlistContext";
+import toast from "react-hot-toast";
+import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product, onClick }) {
   const { addToCart } = useCart();
@@ -67,6 +68,7 @@ export default function ProductCard({ product, onClick }) {
                 e.preventDefault();
                 e.stopPropagation();
                 addToCart(product);
+                toast.success(`${product.title} added to cart`);
               }}
               className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition"
             >

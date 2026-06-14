@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
 
 import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast";
 
 export default function CartDrawer({ isOpen, setIsOpen }) {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } =
@@ -94,7 +95,10 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
 
                         {/* DELETE */}
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => {
+                            removeFromCart(item.id);
+                            toast.error(`${item.title} removed`);
+                          }}
                           className="ml-auto text-red-400"
                         >
                           <FiTrash2 size={18} />

@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import ProductDetailsSkeleton from "@/components/ProductDetailsSkeleton";
 import { FiShoppingCart, FiStar, FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import RelatedProducts from "@/components/RelatedProducts";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import Loading from "./loading";
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -26,6 +26,7 @@ export default function ProductDetailsPage() {
 
   async function fetchProduct() {
     try {
+      setLoading(true);
       const res = await fetch(`https://dummyjson.com/products/${params.id}`);
 
       const data = await res.json();
@@ -48,8 +49,10 @@ export default function ProductDetailsPage() {
   }
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    if (params.id) {
+      fetchProduct();
+    }
+  }, [params.id]);
 
   function increaseQuantity() {
     setQuantity((prev) => prev + 1);
@@ -61,8 +64,8 @@ export default function ProductDetailsPage() {
     }
   }
 
-  if (loading) {
-    return <ProductDetailsSkeleton />;
+  if (loading || !product) {
+    return <Loading />;
   }
 
   return (

@@ -13,6 +13,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import CartDrawer from "./CartDrawer";
 
 import WishlistDrawer from "./WishlistDrawer";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,9 +46,13 @@ export default function Navbar() {
 
           {/* LINKS */}
           <div className="hidden md:flex items-center gap-8 text-sm">
-            <button className="hover:text-gray-300 transition">Home</button>
+            <Link href="/" className="hover:text-gray-300 transition">
+              Home
+            </Link>
 
-            <button className="hover:text-gray-300 transition">Products</button>
+            <Link className="hover:text-gray-300 transition" href="/product">
+              Products
+            </Link>
 
             <button className="hover:text-gray-300 transition">
               Categories

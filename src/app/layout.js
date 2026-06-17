@@ -1,14 +1,20 @@
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <CartProvider>
-          <WishlistProvider> {children} </WishlistProvider>
+          <WishlistProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </WishlistProvider>
         </CartProvider>
         <Toaster
           position="top-right"

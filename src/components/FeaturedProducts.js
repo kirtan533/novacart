@@ -26,11 +26,6 @@ export default function FeaturedProducts() {
     setLoading(false);
   }
 
-  function handleOpenModal(product) {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  }
-
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -81,11 +76,7 @@ export default function FeaturedProducts() {
             ))
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={() => handleOpenModal(product)}
-              />
+              <ProductCard key={product.id} product={product} />
             ))
           ) : (
             <div className="col-span-full text-center py-20">

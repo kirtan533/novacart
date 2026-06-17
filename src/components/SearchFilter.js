@@ -8,6 +8,8 @@ export default function SearchFilter({
   selectedCategory,
   setSelectedCategory,
   categories,
+  sortBy,
+  setSortBy,
 }) {
   return (
     <div className="flex flex-col lg:flex-row gap-5 items-center justify-between mb-14">

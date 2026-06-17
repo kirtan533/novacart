@@ -19,7 +19,6 @@ export default function SearchFilter({
           size={20}
           className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
         />
-
         <input
           type="text"
           placeholder="Search products..."
@@ -27,6 +26,23 @@ export default function SearchFilter({
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-white/30 transition"
         />
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="bg-white/5 border border-white/10 rounded-2xl px-4 py-4 outline-none"
+        >
+          <option value="default">Sort By</option>
+
+          <option value="price-low">Price: Low → High</option>
+
+          <option value="price-high">Price: High → Low</option>
+
+          <option value="name-asc">Name: A → Z</option>
+
+          <option value="name-desc">Name: Z → A</option>
+
+          <option value="rating">Rating</option>
+        </select>
       </div>
 
       {/* FILTER BUTTONS */}

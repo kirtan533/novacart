@@ -4,18 +4,21 @@ import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
+import QueryProvider from "@/providers/QueryProvider";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <CartProvider>
-          <WishlistProvider>
-            <Navbar />
-            {children}
-            <Footer />
-          </WishlistProvider>
-        </CartProvider>
+        <QueryProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </WishlistProvider>
+          </CartProvider>
+        </QueryProvider>
         <Toaster
           position="top-right"
           reverseOrder={false}
@@ -27,7 +30,6 @@ export default function RootLayout({ children }) {
               padding: "16px",
               borderRadius: "18px",
             },
-
             success: {
               iconTheme: {
                 primary: "#22c55e",

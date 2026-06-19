@@ -26,25 +26,47 @@ export default function SearchFilter({
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-white/30 transition"
         />
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="bg-white/5 border border-white/10 rounded-2xl px-4 py-4 outline-none"
-        >
-          <option value="default">Sort By</option>
-
-          <option value="price-low">Price: Low → High</option>
-
-          <option value="price-high">Price: High → Low</option>
-
-          <option value="name-asc">Name: A → Z</option>
-
-          <option value="name-desc">Name: Z → A</option>
-
-          <option value="rating">Rating</option>
-        </select>
       </div>
+      <button
+        onClick={() => {
+          setSearchTerm("");
+          setSelectedCategory("all");
+          setSortBy("default");
+        }}
+        className="px-5 py-3 rounded-full border border-white/10 hover:bg-white/5 transition"
+      >
+        Clear Filters
+      </button>
+      {/* SORT */}
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="bg-white/5 border border-white/10 rounded-2xl px-4 py-4 text-white outline-none focus:border-white/30 transition min-w-[220px]"
+      >
+        <option value="default" className="bg-black text-white">
+          Sort By
+        </option>
 
+        <option value="price-low" className="bg-black text-white">
+          Price: Low → High
+        </option>
+
+        <option value="price-high" className="bg-black text-white">
+          Price: High → Low
+        </option>
+
+        <option value="name-asc" className="bg-black text-white">
+          Name: A → Z
+        </option>
+
+        <option value="name-desc" className="bg-black text-white">
+          Name: Z → A
+        </option>
+
+        <option value="rating" className="bg-black text-white">
+          Rating
+        </option>
+      </select>
       {/* FILTER BUTTONS */}
       <div className="flex flex-wrap gap-3 justify-center lg:justify-end">
         <button

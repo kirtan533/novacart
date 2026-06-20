@@ -10,7 +10,10 @@ import { getProducts } from "@/utils/getProducts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRef, useEffect } from "react";
 
-export default function FeaturedProducts({ showHeading }) {
+export default function FeaturedProducts({
+  showHeading,
+  infiniteScroll = false,
+}) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -67,6 +70,10 @@ export default function FeaturedProducts({ showHeading }) {
 
   const sortedProducts = [...filteredProducts];
 
+  const displayProducts = infiniteScroll
+    ? sortedProducts
+    : sortedProducts.slice(0, 8);
+
   if (sortBy === "price-low") {
     sortedProducts.sort((a, b) => a.price - b.price);
   }
@@ -88,6 +95,8 @@ export default function FeaturedProducts({ showHeading }) {
   }
 
   useEffect(() => {
+    if (!infiniteScroll) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -109,7 +118,7 @@ export default function FeaturedProducts({ showHeading }) {
         observer.unobserve(currentRef);
       }
     };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [infiniteScroll, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <section className="py-24 px-4 sm:px-6 overflow-hidden">
@@ -156,8 +165,8 @@ export default function FeaturedProducts({ showHeading }) {
             Array.from({ length: 8 }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
-          ) : sortedProducts.length > 0 ? (
-            sortedProducts.map((product) => (
+          ) : displayProducts.length > 0 ? (
+            displayProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))
           ) : (
@@ -169,7 +178,7 @@ export default function FeaturedProducts({ showHeading }) {
           )}
         </div>
         {/* LOAD MORE SKELETON */}
-        {isFetchingNextPage && (
+        {infiniteScroll && isFetchingNextPage && (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
             {Array.from({ length: 4 }).map((_, index) => (
               <ProductSkeleton key={index} />
@@ -177,13 +186,13 @@ export default function FeaturedProducts({ showHeading }) {
           </div>
         )}
         {/* END MESSAGE */}
-        {!hasNextPage && !isLoading && (
+        {infiniteScroll && !hasNextPage && !isLoading && (
           <div className="text-center py-10 text-gray-500">
             No More Products
           </div>
         )}
         {/* INTERSECTION OBSERVER TARGET */}
-        <div ref={loadMoreRef} className="h-10" />
+        {infiniteScroll && <div ref={loadMoreRef} className="h-10" />}
       </div>
       <ProductModal
         isOpen={isModalOpen}

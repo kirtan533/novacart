@@ -19,7 +19,8 @@ export default function ProductsPage() {
           </p>
         </div>
       </div>
-      {/* PRODUCTS */} <FeaturedProducts showHeading={false} />{" "}
+      {/* PRODUCTS */}
+      <FeaturedProducts showHeading={false} infiniteScroll={true} />
     </main>
   );
 }

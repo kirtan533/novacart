@@ -41,7 +41,9 @@ export default function FeaturedProducts({ showHeading }) {
 
   const products = data?.pages.flatMap((page) => page.products) || [];
 
-  const categories = [...new Set(products.map((product) => product.category))];
+  const categories = [
+    ...new Set(products.map((product) => product.category)),
+  ].slice(0, 10);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.title
@@ -89,18 +91,25 @@ export default function FeaturedProducts({ showHeading }) {
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        if (entry.isIntersecting && hasNextPage) {
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
           fetchNextPage();
         }
       },
       { threshold: 1 },
     );
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+    const currentRef = loadMoreRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage]);
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <section className="py-24 px-4 sm:px-6 overflow-hidden">
@@ -135,6 +144,7 @@ export default function FeaturedProducts({ showHeading }) {
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
+
         <div className="flex items-center justify-between mb-8">
           <p className="text-gray-400">
             Showing {sortedProducts.length} Products
@@ -158,15 +168,23 @@ export default function FeaturedProducts({ showHeading }) {
             </div>
           )}
         </div>
+        {/* LOAD MORE SKELETON */}
+        {isFetchingNextPage && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))}
+          </div>
+        )}
+        {/* END MESSAGE */}
+        {!hasNextPage && !isLoading && (
+          <div className="text-center py-10 text-gray-500">
+            No More Products
+          </div>
+        )}
+        {/* INTERSECTION OBSERVER TARGET */}
+        <div ref={loadMoreRef} className="h-10" />
       </div>
-      {/* LOAD MORE SKELETON */}
-      {isFetchingNextPage && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <ProductSkeleton key={index} />
-          ))}
-        </div>
-      )}
       <ProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

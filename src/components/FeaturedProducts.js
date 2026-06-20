@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-
 import ProductCard from "./ProductCard";
 import ProductSkeleton from "./ProductSkeleton";
 import ProductModal from "./ProductModal";
 import SearchFilter from "./SearchFilter";
 import { getProducts } from "@/utils/getProducts";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRef, useEffect } from "react";
 
 export default function FeaturedProducts({ showHeading }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,16 +18,28 @@ export default function FeaturedProducts({ showHeading }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("default");
 
-  async function fetchProducts() {
-    const data = await getProducts();
+  const loadMoreRef = useRef(null);
 
-    setProducts(data);
-    setLoading(false);
-  }
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      const nextSkip = lastPage.skip + lastPage.limit;
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+      return nextSkip < lastPage.total ? nextSkip : undefined;
+    },
+  });
+
+  const products = data?.pages.flatMap((page) => page.products) || [];
 
   const categories = [...new Set(products.map((product) => product.category))];
 
@@ -43,6 +53,15 @@ export default function FeaturedProducts({ showHeading }) {
 
     return matchesSearch && matchesCategory;
   });
+
+  if (isError) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-3xl font-bold mb-4">Failed To Load Products</h2>
+        <p className="text-gray-400">{error.message}</p>
+      </div>
+    );
+  }
 
   const sortedProducts = [...filteredProducts];
 
@@ -65,6 +84,23 @@ export default function FeaturedProducts({ showHeading }) {
   if (sortBy === "rating") {
     sortedProducts.sort((a, b) => b.rating - a.rating);
   }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 },
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <section className="py-24 px-4 sm:px-6 overflow-hidden">
@@ -106,7 +142,7 @@ export default function FeaturedProducts({ showHeading }) {
         </div>
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-          {loading ? (
+          {isLoading ? (
             Array.from({ length: 8 }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
@@ -123,6 +159,14 @@ export default function FeaturedProducts({ showHeading }) {
           )}
         </div>
       </div>
+      {/* LOAD MORE SKELETON */}
+      {isFetchingNextPage && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ProductSkeleton key={index} />
+          ))}
+        </div>
+      )}
       <ProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

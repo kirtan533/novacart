@@ -80,7 +80,7 @@ export default function SearchFilter({
       </p>
 
       {/* CATEGORY CHIPS */}
-      <div className="flex gap-3 overflow-x-auto pb-2">
+      <div className="flex gap-3 overflow-x-auto scrollbar-none pb-2">
         <button
           onClick={() => setSelectedCategory("all")}
           className={`px-6 py-3 rounded-full whitespace-nowrap border transition ${
@@ -96,7 +96,7 @@ export default function SearchFilter({
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-6 py-3 rounded-full whitespace-nowrap capitalize border transition ${
+            className={`px-6 py-3 rounded-full  whitespace-nowrap capitalize border transition ${
               selectedCategory === category
                 ? "bg-white text-black border-white"
                 : "border-white/10 hover:bg-white/5"

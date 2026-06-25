@@ -54,9 +54,9 @@ export default function Navbar() {
               Products
             </Link>
 
-            <button className="hover:text-gray-300 transition">
+            <Link href="/categories" className="hover:text-gray-300 transition">
               Categories
-            </button>
+            </Link>
 
             <button className="hover:text-gray-300 transition">Contact</button>
           </div>

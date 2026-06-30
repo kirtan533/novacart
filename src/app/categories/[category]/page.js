@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getCategoryProducts } from "@/utils/getCategoryProducts";
 import ProductSkeleton from "@/components/ProductSkeleton";
 import ProductCard from "@/components/ProductCard";
+import { useEffect, useRef } from "react";
 
 export default function CategoryProductsPage() {
   const params = useParams();

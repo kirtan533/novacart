@@ -147,7 +147,113 @@ export default function ContactPage() {
           >
             <h2 className="text-3xl font-bold mb-8">Send Us A Message</h2>
 
-            {/* FORM COMING NEXT */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* NAME */}
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  {...register("name", {
+                    required: "Full name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Minimum 3 characters",
+                    },
+                  })}
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30 transition"
+                />
+
+                {errors.name && (
+                  <p className="text-red-400 text-sm mt-2">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              {/* EMAIL */}
+
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email",
+                    },
+                  })}
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30 transition"
+                />
+
+                {errors.email && (
+                  <p className="text-red-400 text-sm mt-2">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              {/* SUBJECT */}
+
+              <div>
+                <input
+                  type="text"
+                  placeholder="Subject"
+                  {...register("subject", {
+                    required: "Subject is required",
+                    minLength: {
+                      value: 5,
+                      message: "Minimum 5 characters",
+                    },
+                  })}
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30 transition"
+                />
+
+                {errors.subject && (
+                  <p className="text-red-400 text-sm mt-2">
+                    {errors.subject.message}
+                  </p>
+                )}
+              </div>
+
+              {/* MESSAGE */}
+
+              <div>
+                <textarea
+                  rows={6}
+                  placeholder="Write your message..."
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: {
+                      value: 15,
+                      message: "Minimum 15 characters",
+                    },
+                  })}
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none resize-none focus:border-white/30 transition"
+                />
+
+                {errors.message && (
+                  <p className="text-red-400 text-sm mt-2">
+                    {errors.message.message}
+                  </p>
+                )}
+              </div>
+
+              {/* BUTTON */}
+
+              <button
+                type="submit"
+                disabled={!isValid}
+                className={`w-full py-5 rounded-full font-semibold transition ${
+                  isValid
+                    ? "bg-white text-black hover:opacity-90"
+                    : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                Send Message
+              </button>
+            </form>
           </motion.div>
         </div>
       </section>

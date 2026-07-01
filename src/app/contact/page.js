@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FiChevronDown } from "react-icons/fi";
+import { useState } from "react";
 
 export default function ContactPage() {
   const {
@@ -22,6 +24,28 @@ export default function ContactPage() {
 
     reset();
   }
+
+  const [openFAQ, setOpenFAQ] = useState(null);
+
+  const faqs = [
+    {
+      question: "How long does shipping take?",
+      answer: "Orders usually arrive within 2-5 business days.",
+    },
+    {
+      question: "Can I return my order?",
+      answer: "Yes, we offer a 30-day return policy.",
+    },
+    {
+      question: "How can I track my order?",
+      answer:
+        "You can track your order using the tracking number sent to your email.",
+    },
+    {
+      question: "Do you ship internationally?",
+      answer: "Yes, we currently ship to more than 40 countries.",
+    },
+  ];
 
   return (
     <main className="min-h-screen bg-black text-white pt-32 pb-20 overflow-hidden">
@@ -255,6 +279,65 @@ export default function ContactPage() {
               </button>
             </form>
           </motion.div>
+        </div>
+      </section>
+      {/* GOOGLE MAP */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-24">
+        <div className="mb-10 text-center">
+          <p className="uppercase tracking-[4px] text-sm text-gray-400 mb-4">
+            Find Us
+          </p>
+
+          <h2 className="text-4xl font-bold">Visit Our Store</h2>
+
+          <p className="text-gray-400 mt-4">We'd love to meet you in person.</p>
+        </div>
+
+        <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-2">
+          <iframe
+            src="https://www.google.com/maps?q=New+York&output=embed"
+            width="100%"
+            height="500"
+            loading="lazy"
+            className="rounded-[24px]"
+          />
+        </div>
+      </section>
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-24">
+        <div className="text-center mb-12">
+          <p className="uppercase tracking-[4px] text-sm text-gray-400 mb-4">
+            FAQ
+          </p>
+
+          <h2 className="text-4xl font-bold">Frequently Asked Questions</h2>
+        </div>
+
+        <div className="space-y-5">
+          {faqs.map((faq, index) => (
+            <div
+              key={index}
+              className="border border-white/10 rounded-3xl bg-white/5 overflow-hidden"
+            >
+              <button
+                onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                className="w-full flex items-center justify-between px-8 py-6 text-left"
+              >
+                <span className="font-semibold text-lg">{faq.question}</span>
+
+                <FiChevronDown
+                  className={`transition ${
+                    openFAQ === index ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {openFAQ === index && (
+                <div className="px-8 pb-6 text-gray-400 leading-8">
+                  {faq.answer}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </main>

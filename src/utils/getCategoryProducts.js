@@ -1,6 +1,6 @@
-export async function getCategoryProducts({ pageParam = 0, category }) {
+export async function getCategoryProducts({ category }) {
   const res = await fetch(
-    `https://dummyjson.com/products/category/${category}?limit=8&skip=${pageParam}`,
+    `https://dummyjson.com/products/category/${category}`,
   );
 
   if (!res.ok) {

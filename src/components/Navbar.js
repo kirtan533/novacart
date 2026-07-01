@@ -58,7 +58,9 @@ export default function Navbar() {
               Categories
             </Link>
 
-            <button className="hover:text-gray-300 transition">Contact</button>
+            <Link href="/contact" className="hover:text-gray-300 transition">
+              Contact
+            </Link>
           </div>
 
           {/* RIGHT SIDE ICONS */}

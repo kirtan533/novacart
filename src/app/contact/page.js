@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FiChevronDown } from "react-icons/fi";
 import { useState } from "react";
+import { FiGithub, FiLinkedin, FiInstagram, FiTwitter } from "react-icons/fi";
 
 export default function ContactPage() {
   const {
@@ -157,6 +158,39 @@ export default function ContactPage() {
                     <br />
                     9:00 AM - 6:00 PM
                   </p>
+                  <div className="border-t border-white/10 pt-8 mt-10">
+                    <h3 className="text-xl font-semibold mb-5">Follow Us</h3>
+
+                    <div className="flex gap-4">
+                      <a
+                        href="#"
+                        className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition"
+                      >
+                        <FiGithub size={20} />
+                      </a>
+
+                      <a
+                        href="#"
+                        className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition"
+                      >
+                        <FiLinkedin size={20} />
+                      </a>
+
+                      <a
+                        href="#"
+                        className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition"
+                      >
+                        <FiInstagram size={20} />
+                      </a>
+
+                      <a
+                        href="#"
+                        className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition"
+                      >
+                        <FiTwitter size={20} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

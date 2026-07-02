@@ -1,17 +1,11 @@
 "use client";
 
 import { useState } from "react";
-
 import { motion } from "framer-motion";
-
 import { FiShoppingCart, FiHeart } from "react-icons/fi";
-
 import { useCart } from "@/context/CartContext";
-
 import { useWishlist } from "@/context/WishlistContext";
-
 import CartDrawer from "./CartDrawer";
-
 import WishlistDrawer from "./WishlistDrawer";
 import Link from "next/link";
 

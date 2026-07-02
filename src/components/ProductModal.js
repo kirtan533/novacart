@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { FiX, FiShoppingCart, FiStar } from "react-icons/fi";
+import { FiX, FiStar } from "react-icons/fi";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductModal({ isOpen, onClose, product }) {

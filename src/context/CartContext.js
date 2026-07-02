@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
+
 const CartContext = createContext();
 
 export function CartProvider({ children }) {

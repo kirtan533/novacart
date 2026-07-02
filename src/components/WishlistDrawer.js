@@ -1,11 +1,8 @@
 "use client";
 
 import Link from "next/link";
-
 import { motion, AnimatePresence } from "framer-motion";
-
 import { FiX, FiTrash2 } from "react-icons/fi";
-
 import { useWishlist } from "@/context/WishlistContext";
 
 export default function WishlistDrawer({ isOpen, setIsOpen }) {

@@ -373,6 +373,26 @@ export default function ContactPage() {
             </div>
           ))}
         </div>
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-28">
+          <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/5 py-20 px-8 text-center">
+            <div className="absolute inset-0 -z-10 flex justify-center">
+              <div className="w-[450px] h-[450px] rounded-full bg-purple-500/20 blur-[180px]" />
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Need Immediate Help?
+            </h2>
+
+            <p className="text-gray-400 max-w-2xl mx-auto mt-6 leading-8">
+              Our support team is always available to answer your questions and
+              help you with your shopping experience.
+            </p>
+
+            <button className="mt-10 px-10 py-5 rounded-full bg-white text-black font-semibold hover:opacity-90 transition">
+              Contact Support
+            </button>
+          </div>
+        </section>
       </section>
     </main>
   );

@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { FiShoppingCart, FiHeart } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import CartDrawer from "./CartDrawer";
 import WishlistDrawer from "./WishlistDrawer";
 import Link from "next/link";
+import { FiShoppingCart, FiHeart, FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { cartItems } = useCart();
 
@@ -36,7 +36,11 @@ export default function Navbar() {
       >
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           {/* LOGO */}
-          <h1 className="text-2xl font-bold tracking-wide">NovaCart</h1>
+          <Link href="/">
+            <h1 className="text-2xl font-bold tracking-wide cursor-pointer">
+              NovaCart
+            </h1>
+          </Link>
 
           {/* LINKS */}
           <div className="hidden md:flex items-center gap-8 text-sm">
@@ -59,6 +63,13 @@ export default function Navbar() {
 
           {/* RIGHT SIDE ICONS */}
           <div className="flex items-center gap-5">
+            {/* MOBILE MENU BUTTON */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden"
+            >
+              {mobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+            </button>
             {/* WISHLIST */}
             <button
               onClick={() => setIsWishlistOpen(true)}
@@ -82,7 +93,34 @@ export default function Navbar() {
           </div>
         </div>
       </motion.nav>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden fixed top-[72px] left-0 w-full bg-[#111]/95 backdrop-blur-xl border-b border-white/10 z-40"
+          >
+            <div className="flex flex-col px-6 py-6 space-y-5 text-lg">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                Home
+              </Link>
 
+              <Link href="/product" onClick={() => setMobileMenuOpen(false)}>
+                Products
+              </Link>
+
+              <Link href="/categories" onClick={() => setMobileMenuOpen(false)}>
+                Categories
+              </Link>
+
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                Contact
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* CART DRAWER */}
       <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
 

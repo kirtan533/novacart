@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="w-full min-h-screen bg-black text-white px-4 sm:px-6 pt-28 overflow-hidden">
@@ -22,9 +24,12 @@ export default function Hero() {
 
           {/* BUTTONS */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <button className="px-8 py-4 rounded-full bg-white text-black font-semibold transition hover:opacity-90">
+            <Link
+              href="/product"
+              className="px-8 py-4 rounded-full bg-white text-black font-semibold transition hover:opacity-90"
+            >
               Shop Now
-            </button>
+            </Link>
 
             <button className="px-8 py-4 rounded-full border border-white/20 hover:bg-white/10 transition">
               Explore More

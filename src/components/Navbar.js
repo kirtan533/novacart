@@ -8,8 +8,11 @@ import CartDrawer from "./CartDrawer";
 import WishlistDrawer from "./WishlistDrawer";
 import Link from "next/link";
 import { FiShoppingCart, FiHeart, FiMenu, FiX } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,19 +47,31 @@ export default function Navbar() {
 
           {/* LINKS */}
           <div className="hidden md:flex items-center gap-8 text-sm">
-            <Link href="/" className="hover:text-gray-300 transition">
+            <Link
+              href="/"
+              className={`${pathname === "/" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+            >
               Home
             </Link>
 
-            <Link className="hover:text-gray-300 transition" href="/product">
+            <Link
+              className={`${pathname === "/product" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+              href="/product"
+            >
               Products
             </Link>
 
-            <Link href="/categories" className="hover:text-gray-300 transition">
+            <Link
+              href="/categories"
+              className={`${pathname === "/categories" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+            >
               Categories
             </Link>
 
-            <Link href="/contact" className="hover:text-gray-300 transition">
+            <Link
+              href="/contact"
+              className={`${pathname === "/contact" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+            >
               Contact
             </Link>
           </div>
@@ -102,19 +117,35 @@ export default function Navbar() {
             className="md:hidden fixed top-[72px] left-0 w-full bg-[#111]/95 backdrop-blur-xl border-b border-white/10 z-40"
           >
             <div className="flex flex-col px-6 py-6 space-y-5 text-lg">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                href="/"
+                className={`${pathname === "/" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Home
               </Link>
 
-              <Link href="/product" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                href="/product"
+                className={`${pathname === "/product" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Products
               </Link>
 
-              <Link href="/categories" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                href="/categories"
+                className={`${pathname === "/categories" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Categories
               </Link>
 
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                href="/contact"
+                className={`${pathname === "/contact" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Contact
               </Link>
             </div>

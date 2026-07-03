@@ -17,11 +17,8 @@ export default function ProductDetailsPage() {
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
-
   const [quantity, setQuantity] = useState(1);
-
   const [relatedProducts, setRelatedProducts] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   async function fetchProduct() {
@@ -30,7 +27,6 @@ export default function ProductDetailsPage() {
       const res = await fetch(`https://dummyjson.com/products/${params.id}`);
 
       const data = await res.json();
-
       setProduct(data);
       setSelectedImage(data.thumbnail);
       const relatedRes = await fetch(

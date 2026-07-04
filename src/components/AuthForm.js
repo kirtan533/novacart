@@ -1,6 +1,51 @@
 "use client";
 
+import { useState } from "react";
+import { signup, login } from "@/services/auth";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 export default function AuthForm({ mode }) {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!email || !password) {
+      return toast.error(`Please fill all fields`);
+    }
+    if (password.length < 6) {
+      return toast.error(`Password must be at least 6 characters`);
+    }
+
+    try {
+      setLoading(true);
+
+      if (mode === "signup") {
+        await signup(email, password);
+        toast.success(`Account created successfully`);
+      } else {
+        await login(email, password);
+        toast.success(`Welcome Back`);
+      }
+
+      router.push("/");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8">
       <h1 className="text-3xl font-bold text-center mb-8">

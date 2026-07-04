@@ -9,6 +9,9 @@ import WishlistDrawer from "./WishlistDrawer";
 import Link from "next/link";
 import { FiShoppingCart, FiHeart, FiMenu, FiX } from "react-icons/fi";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { logout } from "@/services/auth";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -19,7 +22,19 @@ export default function Navbar() {
 
   const { cartItems } = useCart();
 
+  const { user } = useAuth();
+
   const { wishlistItems } = useWishlist();
+
+  async function handleLogout() {
+    try {
+      await logout();
+
+      toast.success("Logged Out");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   return (
     <>
@@ -85,6 +100,28 @@ export default function Navbar() {
             >
               {mobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
             </button>
+            <div className="hidden md:flex items-center gap-3">
+              <button
+                onClick={handleLogout}
+                className="text-sm border border-white/10 px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+              >
+                Logout
+              </button>
+              <Link
+                href="/login"
+                className="px-5 py-2 rounded-full border border-white/10 hover:bg-white/5 transition"
+              >
+                Login
+              </Link>
+
+              <Link
+                href="/signup"
+                className="px-5 py-2 rounded-full bg-white text-black rounded-full hover:opacity-90"
+              >
+                Sign Up
+              </Link>
+            </div>
+
             {/* WISHLIST */}
             <button
               onClick={() => setIsWishlistOpen(true)}

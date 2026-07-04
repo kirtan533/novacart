@@ -36,6 +36,13 @@ export default function Navbar() {
     }
   }
 
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/product" },
+    { name: "Categories", href: "/categories" },
+    { name: "Contact", href: "/contact" },
+  ];
+
   return (
     <>
       <motion.nav
@@ -62,33 +69,15 @@ export default function Navbar() {
 
           {/* LINKS */}
           <div className="hidden md:flex items-center gap-8 text-sm">
-            <Link
-              href="/"
-              className={`${pathname === "/" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-            >
-              Home
-            </Link>
-
-            <Link
-              className={`${pathname === "/product" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-              href="/product"
-            >
-              Products
-            </Link>
-
-            <Link
-              href="/categories"
-              className={`${pathname === "/categories" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-            >
-              Categories
-            </Link>
-
-            <Link
-              href="/contact"
-              className={`${pathname === "/contact" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-            >
-              Contact
-            </Link>
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                href={link.href}
+                className={`${pathname === link.href ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
 
           {/* RIGHT SIDE ICONS */}
@@ -153,45 +142,23 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden fixed top-[72px] left-0 w-full bg-[#111]/95 backdrop-blur-xl border-b border-white/10 z-40"
           >
+            {/* links for mobileview */}
             <div className="flex flex-col px-6 py-6 space-y-5 text-lg">
-              <Link
-                href="/"
-                className={`${pathname === "/" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-
-              <Link
-                href="/product"
-                className={`${pathname === "/product" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Products
-              </Link>
-
-              <Link
-                href="/categories"
-                className={`${pathname === "/categories" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Categories
-              </Link>
-
-              <Link
-                href="/contact"
-                className={`${pathname === "/contact" ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
+              {navLinks.map((link) => (
+                <Link
+                  href={link.href}
+                  className={`${pathname === link.href ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
       {/* CART DRAWER */}
       <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
-
       {/* WISHLIST DRAWER */}
       <WishlistDrawer isOpen={isWishlistOpen} setIsOpen={setIsWishlistOpen} />
     </>

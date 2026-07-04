@@ -5,19 +5,22 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 import QueryProvider from "@/providers/QueryProvider";
+import AuthProvider from "@/context/AuthContext";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <QueryProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <Navbar />
-              {children}
-              <Footer />
-            </WishlistProvider>
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <Navbar />
+                {children}
+                <Footer />
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
         </QueryProvider>
         <Toaster
           position="top-right"

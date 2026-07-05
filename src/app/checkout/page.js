@@ -113,7 +113,6 @@ export default function CheckoutPage() {
                     </p>
                   )}
                 </div>
-
                 {/* LAST NAME */}
                 <div>
                   <input
@@ -128,7 +127,6 @@ export default function CheckoutPage() {
                     })}
                     className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30"
                   />
-
                   {errors.lastName && (
                     <p className="text-red-400 text-sm mt-2">
                       {errors.lastName.message}
@@ -149,7 +147,6 @@ export default function CheckoutPage() {
                     })}
                     className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-white/30"
                   />
-
                   {errors.email && (
                     <p className="text-red-400 text-sm mt-2">
                       {errors.email.message}

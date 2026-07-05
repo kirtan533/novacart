@@ -126,8 +126,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                 }}
                 className="w-full py-4 rounded-full bg-white text-black font-semibold hover:opacity-90 transition"
               >
-                {" "}
-                Checkout{" "}
+                Checkout
               </button>
             </div>
           </motion.div>

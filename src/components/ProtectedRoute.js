@@ -18,7 +18,7 @@ export default function ProtectedRoutes({ children }) {
 
   if (loading) {
     <div className="min-h-screen bg-black flex items-center justify-center text-white">
-      loading...
+      Checking Authentication...
     </div>;
   }
   if (!user) return null;

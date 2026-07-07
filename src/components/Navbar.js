@@ -31,6 +31,8 @@ export default function Navbar() {
 
   async function handleLogout() {
     try {
+      localStorage.removeItem("cart");
+      localStorage.removeItem("wishlist");
       clearCart();
       clearWishlist();
       await logout();

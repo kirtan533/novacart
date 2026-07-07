@@ -17,7 +17,7 @@ export default function AuthForm({ mode }) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleDemo = async (data) => {
+  const handleDemo = async () => {
     try {
       await login("demo@gmail.com", "123456");
       toast.success(`Login SuccessFull`);

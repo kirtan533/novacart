@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
-import { FiGithub, FiLinkedin, FiInstagram, FiTwitter } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FiChevronDown } from "react-icons/fi";

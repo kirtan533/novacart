@@ -12,15 +12,18 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { logout } from "@/services/auth";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
+  const { clearWishlist } = useWishlist();
 
   const { user } = useAuth();
 
@@ -28,9 +31,11 @@ export default function Navbar() {
 
   async function handleLogout() {
     try {
+      clearCart();
+      clearWishlist();
       await logout();
-
       toast.success("Logged Out");
+      router.push("/");
     } catch (error) {
       toast.error(error.message);
     }
@@ -69,9 +74,9 @@ export default function Navbar() {
 
           {/* LINKS */}
           <div className="hidden md:flex items-center gap-8 text-sm">
-            {navLinks.map((link, index) => (
+            {navLinks.map((link, i) => (
               <Link
-                key={index}
+                key={i}
                 href={link.href}
                 className={`${pathname === link.href ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
               >
@@ -90,25 +95,25 @@ export default function Navbar() {
               {mobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
             </button>
             <div className="hidden md:flex items-center gap-3">
-              <button
-                onClick={handleLogout}
-                className="text-sm border border-white/10 px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
-              >
-                Logout
-              </button>
-              <Link
-                href="/login"
-                className="px-5 py-2 rounded-full border border-white/10 hover:bg-white/5 transition"
-              >
-                Login
-              </Link>
-
-              <Link
-                href="/signup"
-                className="px-5 py-2 rounded-full bg-white text-black rounded-full hover:opacity-90"
-              >
-                Sign Up
-              </Link>
+              {user ? (
+                <>
+                  <button
+                    onClick={handleLogout}
+                    className="text-sm border border-white/10 px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="px-5 py-2 rounded-full border border-white/10 hover:bg-white/5 transition"
+                  >
+                    Login
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* WISHLIST */}
@@ -144,8 +149,9 @@ export default function Navbar() {
           >
             {/* links for mobileview */}
             <div className="flex flex-col px-6 py-6 space-y-5 text-lg">
-              {navLinks.map((link) => (
+              {navLinks.map((link, i) => (
                 <Link
+                  key={i}
                   href={link.href}
                   className={`${pathname === link.href ? "text-purple-400" : "text-white"} hover:text-gray-300 transition`}
                   onClick={() => setMobileMenuOpen(false)}
@@ -153,6 +159,34 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              <div className="border-t border-white/10 pt-5 mt-5">
+                {user ? (
+                  <button
+                    onClick={handleLogout}
+                    className="w-full rounded-xl border border-white/10 py-3"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-center rounded-xl border border-white/10 py-3"
+                    >
+                      Login
+                    </Link>
+
+                    <Link
+                      href="/signup"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-center rounded-xl bg-white text-black py-3"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         )}

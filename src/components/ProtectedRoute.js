@@ -17,9 +17,11 @@ export default function ProtectedRoutes({ children }) {
   }, [loading, user, pathname, router]);
 
   if (loading) {
-    <div className="min-h-screen bg-black flex items-center justify-center text-white">
-      Checking Authentication...
-    </div>;
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center text-white">
+        Checking Authentication...
+      </div>
+    );
   }
   if (!user) return null;
   return children;

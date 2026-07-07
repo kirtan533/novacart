@@ -1,21 +1,7 @@
-"use client";
-
-import { usePathname } from "next/navigation";
 import { FiFacebook, FiInstagram, FiTwitter, FiGithub } from "react-icons/fi";
 import ProtectedRoutes from "./ProtectedRoute";
 
 export default function Footer() {
-  const pathname = usePathname();
-
-  // if (
-  //   pathname === "/login" ||
-  //   pathname === "/signup" ||
-  //   pathname === `/login?redirect=${pathname}` ||
-  //   pathname === `/signup?redirect=${pathname}`
-  // ) {
-  //   return null;
-  // }
-
   return (
     <ProtectedRoutes>
       <footer className="border-t border-white/10 bg-black px-4 sm:px-6 pt-20 pb-10">

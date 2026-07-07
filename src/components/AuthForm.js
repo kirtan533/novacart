@@ -17,6 +17,16 @@ export default function AuthForm({ mode }) {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleDemo = async (data) => {
+    try {
+      await login("demo@gmail.com", "123456");
+      toast.success(`Login SuccessFull`);
+      router.replace("/");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -92,6 +102,13 @@ export default function AuthForm({ mode }) {
             : mode === "signup"
               ? "Create Account"
               : "Login"}
+        </button>
+        <button
+          type="button"
+          onClick={handleDemo}
+          className="w-full py-4 rounded-2xl bg-white text-black font-semibold hover:opacity-90 transition disabled:opacity-60"
+        >
+          Login as a DemoUser
         </button>
       </form>
 

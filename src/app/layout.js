@@ -4,6 +4,7 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/QueryProvider";
 import AuthProvider from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
 
 export default function RootLayout({ children }) {
   return (
@@ -12,7 +13,10 @@ export default function RootLayout({ children }) {
         <QueryProvider>
           <AuthProvider>
             <CartProvider>
-              <WishlistProvider>{children}</WishlistProvider>
+              <WishlistProvider>
+                <Navbar />
+                {children}
+              </WishlistProvider>
             </CartProvider>
           </AuthProvider>
         </QueryProvider>

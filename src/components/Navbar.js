@@ -23,16 +23,14 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { cartItems, clearCart } = useCart();
-  const { clearWishlist } = useWishlist();
+  const { wishlistItems, clearWishlist } = useWishlist();
 
   const { user } = useAuth();
 
-  const { wishlistItems } = useWishlist();
-
   async function handleLogout() {
     try {
-      localStorage.removeItem("cart");
-      localStorage.removeItem("wishlist");
+      localStorage.removeItem("cartItems");
+      localStorage.removeItem("wishlistItems");
       clearCart();
       clearWishlist();
       await logout();
@@ -117,7 +115,6 @@ export default function Navbar() {
                 </>
               )}
             </div>
-
             {/* WISHLIST */}
             <button
               onClick={() => setIsWishlistOpen(true)}

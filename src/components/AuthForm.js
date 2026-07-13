@@ -43,12 +43,12 @@ export default function AuthForm({ mode }) {
       if (mode === "signup") {
         await signup(email, password);
         toast.success(`Account created successfully`);
+        router.push("/login");
       } else {
         await login(email, password);
         toast.success(`Welcome Back`);
+        router.push("/");
       }
-
-      router.push("/");
     } catch (error) {
       toast.error(error.message);
     } finally {

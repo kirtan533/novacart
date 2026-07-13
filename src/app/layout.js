@@ -1,9 +1,7 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { Toaster } from "react-hot-toast";
-import Footer from "@/components/Footer";
 import QueryProvider from "@/providers/QueryProvider";
 import AuthProvider from "@/context/AuthContext";
 
@@ -14,11 +12,7 @@ export default function RootLayout({ children }) {
         <QueryProvider>
           <AuthProvider>
             <CartProvider>
-              <WishlistProvider>
-                <Navbar />
-                {children}
-                <Footer />
-              </WishlistProvider>
+              <WishlistProvider>{children}</WishlistProvider>
             </CartProvider>
           </AuthProvider>
         </QueryProvider>
